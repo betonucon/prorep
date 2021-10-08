@@ -17,7 +17,7 @@ use App\Http\Controllers\OtorisasiController;
 */
 
 
-
+Route::get('a/{personnel_no}/', 'Auth\LoginController@programaticallyEmployeeLogin')->name('login.a');
 Auth::routes();
 Route::group(['middleware'    => 'auth'],function(){
     Route::get('/home', 'HomeController@index')->name('home');
