@@ -108,29 +108,38 @@ class ProgresreportController extends Controller
         <div class="widget-chart-info">
             <h4 class="widget-chart-info-title">Task progress project</h4>
             <p class="widget-chart-info-desc">List Project Personal.</p>';
-            foreach($data as $x=>$o){
-                if(progres_bar_project_personal($o['kode_project'],$request->username)==100){
-                    $color='bg-indigo';
-                }else{
-                    if(progres_bar_project_personal($o['kode_project'],$request->username)>50){
-                        if(progres_bar_project_personal($o['kode_project'],$request->username)>70){
-                            $color='bg-indigo';
-                        }else{
-                            $color='bg-yellow';
-                        }
-                        
+            if(count_progres_bar_project_personal($request->username)>0){
+                foreach($data as $x=>$o){
+                    if(progres_bar_project_personal($o['kode_project'],$request->username)==100){
+                        $color='bg-indigo';
                     }else{
-                        $color='bg-red';
+                        if(progres_bar_project_personal($o['kode_project'],$request->username)>50){
+                            if(progres_bar_project_personal($o['kode_project'],$request->username)>70){
+                                $color='bg-indigo';
+                            }else{
+                                $color='bg-yellow';
+                            }
+                            
+                        }else{
+                            $color='bg-red';
+                        }
                     }
+                    echo'
+                        <div class="widget-chart-info-progress">
+                            <b>'.$o->project['name'].'aaa</b>
+                            <span class="pull-right">'.progres_bar_project_personal($o['kode_project'],$request->username).'%</span>
+                        </div>
+                        <div class="progress progress-sm m-b-15">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated rounded-corner '.$color.'" style="width: '.progres_bar_project_personal($o['kode_project'],$request->username).'%"></div>
+                        </div>
+                    ';
                 }
+            }else{
                 echo'
-                    <div class="widget-chart-info-progress">
-                        <b>'.$o->project['name'].'aaa</b>
-                        <span class="pull-right">'.progres_bar_project_personal($o['kode_project'],$request->username).'%</span>
-                    </div>
-                    <div class="progress progress-sm m-b-15">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated rounded-corner '.$color.'" style="width: '.progres_bar_project_personal($o['kode_project'],$request->username).'%"></div>
-                    </div>
+
+                <div  style="background:#fff;border:dotted 1px #000;height:30px;font-size:15px;text-align:center">
+                    Null Project
+                </div>
                 ';
             }
             echo'            

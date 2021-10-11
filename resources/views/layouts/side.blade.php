@@ -19,7 +19,7 @@
 						<li>
 							<a href="{{url('Activitas')}}">
 								<i class="fas fa-users"></i>
-								<span>Personal Activitas</span> 
+								<span>Personal Activity</span> 
 							</a>
 						</li>
 						

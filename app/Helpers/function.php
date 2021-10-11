@@ -1,7 +1,7 @@
 <?php
 
 function name(){
-    return 'POREP (Progres Report)';
+    return 'PROREP (Progres Report)';
 }
 function company(){
     return 'PT KRAKATAU INFROMATION TECHNOLOGY';
@@ -268,6 +268,12 @@ function progres_bar_project_personal($kodeproject,$username){
     }
     
     return round($progres);
+}
+function count_progres_bar_project_personal($username){
+    error_reporting(0);
+    $data=App\Projectteam::where('username',$username)->count();
+    
+    return $data;
 }
 
 function periode($tgl){
