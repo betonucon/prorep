@@ -33,8 +33,9 @@
                             <div class="widget widget-stats {{$color}} m-b-10">
                                 <div class="stats-icon stats-icon-lg"><i class="fa fa-globe fa-fw"></i></div>
                                 <div class="stats-content">
-                                    <div class="stats-title">{{$progresreport_get->kode_project}}</div>
+                                    <div class="stats-title">{{$progresreport_get->kode_project}} </div>
                                     <div class="stats-number" style="font-size:19px">{{$progresreport_get->project['name']}}</div>
+                                    <div class="stats-number" style="font-size:19px">Progres <font color="yellow">({{Total_progresreport_count($progresreport_get->kode_project)}}%)</font></div>
                                     <div class="stats-title">Project Manager : {{$progresreport_get->project->user['name']}}</div>
                                     <div class="stats-progress progress">
                                         <div class="progress-bar" style="width: 100%;"></div>

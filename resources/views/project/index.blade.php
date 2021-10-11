@@ -23,6 +23,15 @@
                     @foreach(project_get() as $no=>$project_get)
                         <?php
                             if($no%2){$color="bg-gradient-purple";}else{$color="bg-gradient-black";}
+                            if(progres_bar_project($project_get->kode_project)==100){
+                                $warnabar='bg-indigo';
+                            }else{
+                                if(progres_bar_project($project_get->kode_project)>50){
+                                    $warnabar='bg-yellow';
+                                }else{
+                                    $warnabar='bg-red';
+                                }
+                            }
                         ?>
                         <div class="col-lg-4 col-sm-6">
                             <div class="widget widget-stats {{$color}} m-b-10">
@@ -30,8 +39,10 @@
                                 <div class="stats-content">
                                     <div class="stats-title">{{$project_get->kode_project}}</div>
                                     <div class="stats-number" style="font-size:19px">{{$project_get->name}}</div>
-                                    <div class="stats-progress progress">
-                                        <div class="progress-bar" style="width: 100%;"></div>
+                                    <div class="stats-number" style="font-size:19px;color:yellow">{{progres_bar_project($project_get->kode_project)}}%</div>
+                                    
+                                    <div class="progress progress-sm m-b-15">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated rounded-corner {{$warnabar}}" style="width: {{progres_bar_project($project_get->kode_project)}}%"></div>
                                     </div>
                                     <div class="stats-desc">{{$project_get->startdate}} s/d {{$project_get->enddate}}</div>
                                     <div class="stats-desc">Team Project</div>

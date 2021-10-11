@@ -58,10 +58,46 @@
 			color:#fff;
 			font-size:20px;
 		}
+		.page-with-light-sidebar .sidebar-bg {
+			background: transparent;
+		}
+		.page-with-light-sidebar .sidebar .nav>li>a {
+			color: #fefeff;
+			font-weight: 600;
+		}
+		.page-with-light-sidebar .sidebar .nav>li>a:focus, .page-with-light-sidebar .sidebar .nav>li>a:hover {
+			color: yellow;
+		}
+		.page-header {
+			font-size: 24px;
+			margin: 0 0 15px;
+			color: #fff;
+			padding: 0;
+			margin-right:10px;
+			border: none;
+			line-height: 32px;
+			font-weight: 500;
+		}
+		.panel {
+			margin-bottom: 20px;
+			background: #fbf9f9ed;
+			border: none;
+			-webkit-box-shadow: none;
+			box-shadow: none;
+			-webkit-border-radius: 3px;
+			border-radius: 3px;
+		}
+		.breadcrumb .breadcrumb-item a {
+			color: #b8c1c9;
+		}
+		.header.navbar-inverse {
+			background: #150f34;
+		}
+
 	</style>
 	@stack('style')
 </head>
-<body style="background: url(img/bgbg.jpg);background-size: cover;">
+<body style="background: url(img/bgbg2.jpg);background-size: cover;">
 	<!-- begin #page-loader -->
 	<div id="page-loader" class="fade show">
 		<span class="spinner"></span>
@@ -73,14 +109,14 @@
         </div>
 	</div>
 	<!-- end #page-loader -->
-	
+	<div class="app-cover"></div>
 	<!-- begin #page-container -->
 	<div id="page-container"  class="fade page-sidebar-fixed page-header-fixed page-with-light-sidebar">
 		<!-- begin #header -->
 		<div id="header" class="header navbar-inverse">
 			<!-- begin navbar-header -->
 			<div class="navbar-header">
-				<a href="index.html" class="navbar-brand"><img src="{{url('img/logo.png')}}" alt="" />  <b>POREP</b> </a>
+				<a href="index.html" class="navbar-brand"><img src="{{url('img/logo.png')}}" alt="" /></a>
 				<button type="button" class="navbar-toggle" data-click="sidebar-toggled">
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
@@ -114,7 +150,7 @@
 				</li> -->
 				<li class="dropdown navbar-user">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						<img src="{{url('img/logo.png')}}" alt="" /> 
+						<img src="{{url('img/akun.png')}}" alt="" /> 
 						<span class="d-none d-md-inline">{{Auth::user()->name}}</span> <b class="caret"></b>
 					</a>
 					<div class="dropdown-menu dropdown-menu-right">
@@ -133,7 +169,7 @@
 		<!-- end #header -->
 		
 		<!-- begin #sidebar -->
-		<div id="sidebar" class="sidebar">
+		<div id="sidebar" class="sidebar" style="background: #190e44c2;">
 			<!-- begin sidebar scrollbar -->
 			<div data-scrollbar="true" data-height="100%">
 				<!-- begin sidebar user -->
@@ -142,7 +178,7 @@
 						<a href="javascript:;" data-toggle="nav-profile">
 							<div class="cover with-shadow"></div>
 							<div class="image">
-								<img src="{{url('img/logo.png')}}" alt="" />
+								<img src="{{url('img/akun.png')}}" alt="" />
 							</div>
 							<div class="info">
 								<b class="caret pull-right"></b>{{Auth::user()->name}}

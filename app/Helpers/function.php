@@ -173,13 +173,14 @@ function progres_aktifitas($id,$tgl){
     return $data['progres'];
 }
 
-function dashboard_project_get(){
+function dashboard_project_get($cos){
     if(Auth::user()['role_id']==1 || Auth::user()['role_id']==5){
-        $data=App\Project::all();
+        $data=App\Project::where('costcenter_id',$cos)->get();
     }
     if(Auth::user()['role_id']==2 || Auth::user()['role_id']==3){
-        $data=App\Project::where('costcenter_id',Auth::user()['costcenter_id'])->get();
-    }else{
+        $data=App\Project::where('costcenter_id',$cos)->get();
+    }
+    if(Auth::user()['role_id']==4){
         $data=App\Projectteam::where('username',Auth::user()['username'])->orderBy('kode_project','Asc')->get();
     }
     
@@ -192,6 +193,7 @@ function project_get(){
     
     return $data;
 }
+
 
 function user_get(){
     if(Auth::user()['role_id']==1 || Auth::user()['role_id']==5){
@@ -221,7 +223,7 @@ function role_get(){
     return $data;
 }
 
-function progres_bar_project($kodeproject){
+function progres_bar_project_lama($kodeproject){
     
     $data=App\Projectteam::where('kode_project',$kodeproject)->count();
     if($data>0){
@@ -241,6 +243,30 @@ function progres_bar_project($kodeproject){
     }else{
         $progres=0;
     }
+    return round($progres);
+}
+function progres_bar_project($kodeproject){
+    error_reporting(0);
+    $data=App\Projectteam::where('kode_project',$kodeproject)->count();
+    if($data>0){
+        $sum=App\Projectteam::where('kode_project',$kodeproject)->sum('progres');
+        $progres=($sum/$data);
+    }else{
+        $progres='0';
+    }
+    
+    return round($progres);
+}
+function progres_bar_project_personal($kodeproject,$username){
+    error_reporting(0);
+    $data=App\Projectteam::where('kode_project',$kodeproject)->where('username',$username)->count();
+    if($data>0){
+        $sum=App\Projectteam::where('kode_project',$kodeproject)->where('username',$username)->sum('progres');
+        $progres=($sum/$data);
+    }else{
+        $progres='0';
+    }
+    
     return round($progres);
 }
 
@@ -285,6 +311,15 @@ function lemburreport_get($username,$tgl){
 function progresreport_count(){
     $data=App\Projectteam::select('kode_project')->where('username',Auth::user()['username'])->groupBy('kode_project')->count();
     return $data;
+}
+function progresreport_count_order($kode_project){
+    $data=App\Projectteam::where('kode_project',$kode_project)->where('username',Auth::user()['username'])->count();
+    return $data;
+}
+function Total_progresreport_count($kode_project){
+    $data=App\Projectteam::where('kode_project',$kode_project)->where('username',Auth::user()['username'])->sum('progres');
+    $sum=$data/progresreport_count_order($kode_project);
+    return round($sum);
 }
 
 function projectteam_get($kode){

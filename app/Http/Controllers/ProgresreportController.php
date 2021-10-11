@@ -109,14 +109,27 @@ class ProgresreportController extends Controller
             <h4 class="widget-chart-info-title">Task progress project</h4>
             <p class="widget-chart-info-desc">List Project Personal.</p>';
             foreach($data as $x=>$o){
-                if($x%2==0){$color="bg-green";}else{$color="bg-indigo";}
+                if(progres_bar_project_personal($o['kode_project'],$request->username)==100){
+                    $color='bg-indigo';
+                }else{
+                    if(progres_bar_project_personal($o['kode_project'],$request->username)>50){
+                        if(progres_bar_project_personal($o['kode_project'],$request->username)>70){
+                            $color='bg-indigo';
+                        }else{
+                            $color='bg-yellow';
+                        }
+                        
+                    }else{
+                        $color='bg-red';
+                    }
+                }
                 echo'
                     <div class="widget-chart-info-progress">
-                        <b>'.$o->project['name'].'</b>
-                        <span class="pull-right">'.progres_bar_project($o['kode_project']).'%</span>
+                        <b>'.$o->project['name'].'aaa</b>
+                        <span class="pull-right">'.progres_bar_project_personal($o['kode_project'],$request->username).'%</span>
                     </div>
                     <div class="progress progress-sm m-b-15">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated rounded-corner '.$color.'" style="width: '.progres_bar_project($o['kode_project']).'%"></div>
+                        <div class="progress-bar progress-bar-striped progress-bar-animated rounded-corner '.$color.'" style="width: '.progres_bar_project_personal($o['kode_project'],$request->username).'%"></div>
                     </div>
                 ';
             }

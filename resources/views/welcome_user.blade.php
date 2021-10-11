@@ -48,7 +48,7 @@
                         <div class="widget-chart-info" id="style-3" style="height: 387px;overflow-y:scroll">
                             <h4 class="widget-chart-info-title">Task Progres Report</h4>
                             <p class="widget-chart-info-desc">{{company()}}.</p>
-                            @foreach(dashboard_project_get() as $no=>$project_get)
+                            @foreach(dashboard_project_get($cost) as $no=>$project_get)
                                 
                                 @if($project_get->progres==100)
                                     <div class="widget-chart-info-progress">

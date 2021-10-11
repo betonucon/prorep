@@ -24,12 +24,17 @@ class HomeController extends Controller
     public function index(request $request){
         if(Auth::user()['role_id']==4){
             $menu='Dashboard';
-        
-            return view('welcome_user',compact('menu'));
+            $cost=Auth::user()['costcenter_id'];
+            return view('welcome_user',compact('menu','cost'));
+        }
+        if(Auth::user()['role_id']==1){
+            $menu='Dashboard';
+            $cost=2;
+            return view('welcome_utama',compact('menu','cost'));
         }else{
             $menu='Dashboard';
-        
-            return view('welcome',compact('menu'));
+            $cost=Auth::user()['costcenter_id'];
+            return view('welcome',compact('menu','cost'));
         }
         
     }

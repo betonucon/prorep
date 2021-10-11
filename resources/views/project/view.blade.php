@@ -15,11 +15,11 @@
 			<div class="profile-header">
 				<div class="profile-header-cover"></div>
 				<div class="profile-header-content">
-					<div class="profile-header-img">
+					<!-- <div class="profile-header-img">
 						<img src="{{url('img/logo.png')}}" alt="">
-					</div>
+					</div> -->
 					<div class="profile-header-info">
-						<h4 class="mt-0 mb-1">{{$data->name}} {{jml_minggu()}}</h4>
+						<h4 class="mt-0 mb-1"><font color="yellow">({{progres_bar_project($data->kode_project)}}%)</font> {{$data->name}} {{jml_minggu()}}</h4>
 						<p class="mb-2">Project Manager : {{$data->user['name']}} </p>
 						<p class="mb-2">Costcenter : {{$data->costcenter['name']}} </p>
 						<p class="mb-2">Startdate - Endtdate: {{$data->startdate}} To {{$data->enddate}}</p>
@@ -35,7 +35,7 @@
                 <div class="panel panel-inverse" data-sortable-id="table-basic-9">
 						<!-- begin panel-heading -->
                     <div class="panel-heading ui-sortable-handle">
-                        <h4 class="panel-title"><span class="btn btn-blue btn-sm" onclick="create_data()"><i class="fa fa-plus"></i> Create Team</span></h4>
+                        <h4 class="panel-title"><span class="btn btn-blue btn-sm" onclick="create_data()"><i class="fa fa-plus"></i> Create Team & Job Order</span></h4>
                         <div class="panel-heading-btn">
                             <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
                         </div>
