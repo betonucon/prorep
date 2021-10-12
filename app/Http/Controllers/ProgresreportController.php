@@ -157,6 +157,8 @@ class ProgresreportController extends Controller
             'tanggal'=> 'required|date',
             'project_team_id'=> 'required|numeric',
             'progres'=> 'required|numeric',
+            'mulai'=> 'required|date_format:H:i',
+            'sampai'=> 'required|date_format:H:i',
             
             
         ];
@@ -166,6 +168,8 @@ class ProgresreportController extends Controller
             'progres.required'=> 'Insert Progres Activitas',  
             'progres.numeric'=> 'Insert Progres Activitas',    
             'progres.max'=> 'Insert MAX Activitas',    
+            'mulai.required'=> 'Insert Start Time', 
+            'sampai.required'=> 'Insert Enda Time', 
             
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -180,24 +184,29 @@ class ProgresreportController extends Controller
                 }
             }
         }else{
-            $proj=Projectteam::find($request->project_team_id);
-            $data= Aktifitas::create([
-                'kode_project'=>$proj['kode_project'],
-                'project_team_id'=>$request->project_team_id,
-                'keterangan'=>$request->keterangan,
-                'progres'=>$request->progres,
-                'tanggal'=>$request->tanggal,
-                'username'=>Auth::user()['username'],
-            ]);
-
-            if($data){
-                $progresteam=Projectteam::where('id',$request->project_team_id)->update([
-                    'prosesdate'=>date('Y-m-d'),
+            if($request->mulai>$request->sampai){
+                echo' Start Time More Than End Time';
+            }else{
+                $proj=Projectteam::find($request->project_team_id);
+                $data= Aktifitas::create([
+                    'kode_project'=>$proj['kode_project'],
+                    'project_team_id'=>$request->project_team_id,
+                    'keterangan'=>$request->keterangan,
                     'progres'=>$request->progres,
+                    'tanggal'=>$request->tanggal,
+                    'username'=>Auth::user()['username'],
+                    'mulai'=>$request->tanggal.' '.$request->mulai,
+                    'sampai'=>$request->tanggal.' '.$request->sampai,
                 ]);
-                echo'ok';
-            }
 
+                if($data){
+                    $progresteam=Projectteam::where('id',$request->project_team_id)->update([
+                        'prosesdate'=>date('Y-m-d'),
+                        'progres'=>$request->progres,
+                    ]);
+                    echo'ok';
+                }
+            }
             
         }
     }

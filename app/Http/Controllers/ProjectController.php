@@ -27,6 +27,7 @@ class ProjectController extends Controller
         $rules = [
             'name'=> 'required',
             'costcenter_id'=> 'required|numeric',
+            'kategori_id'=> 'required|numeric',
             'startdate'=> 'required|date',
             'enddate'=> 'required|date',
         ];
@@ -34,6 +35,7 @@ class ProjectController extends Controller
         $messages = [
             'name.required'=> 'Insert Project Name', 
             'costcenter_id.required'=> 'Selected Costcenter', 
+            'kategori_id.required'=> 'Selected Categori Project', 
             'startdate.required'=> 'Insert Startdate Project',  
             'enddate.required'=> 'Insert Enddate Project',  
             
@@ -56,6 +58,7 @@ class ProjectController extends Controller
                 'username'=>Auth::user()['username'],
                 'kode_project'=>'IN'.Auth::user()['username'].date('ymdhis'),
                 'startdate'=>$request->startdate,
+                'kategori_id'=>$request->kategori_id,
                 'enddate'=>$request->enddate,
                 'costcenter_id'=>$request->costcenter_id,
                 'createdate'=>date('Y-m-d'),
@@ -76,6 +79,7 @@ class ProjectController extends Controller
         
         $rules = [
             'username'=> 'required',
+            'job_order_id'=> 'required|numeric',
             'name'=> 'required',
             'startdate'=> 'required|date',
             'enddate'=> 'required|date',
@@ -83,6 +87,8 @@ class ProjectController extends Controller
 
         $messages = [
             'username.required'=> 'Selected Team', 
+            'job_order_id.required'=> 'Select Job order',  
+            'job_order_id.numeric'=> 'Select Job order',    
             'name.required'=> 'Insert Job Order', 
             'startdate.required'=> 'Insert Startdate Project',  
             'enddate.required'=> 'Insert Enddate Project', 
@@ -103,6 +109,7 @@ class ProjectController extends Controller
                 'name'=>$request->name,
                 'username'=>$request->username,
                 'kode_project'=>$request->kode_project,
+                'job_order_id'=>$request->job_order_id,
                 'startdate'=>$request->startdate,
                 'enddate'=>$request->enddate,
                 'progres'=>'0',

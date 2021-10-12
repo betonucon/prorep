@@ -147,22 +147,31 @@
                                     <div class="form-group row m-b-10">
                                         <label class="col-lg-3 text-lg-right col-form-label"><b>Job Order</b></label>
                                         <div class="col-lg-9 col-xl-9">
+                                        <select class="form-control selectpicker" name="job_order_id" data-size="10" data-live-search="true" data-style="btn-white">
+											<option value="" selected>--Select Job Order--</option>
+                                            @foreach(joborder_get($data->kategori_id) as $joborder_get)
+											<option value="{{$joborder_get->id}}">{{$joborder_get->name}}</option>
+											@endforeach
+										</select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-xl-10 offset-xl-1">
+                                    <div class="form-group row m-b-10">
+                                        <label class="col-lg-3 text-lg-right col-form-label"><b>Job Order Name</b></label>
+                                        <div class="col-lg-9 col-xl-9">
                                             <input type="text"  name="name"  placeholder="Enter....." class="form-control">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-xl-10 offset-xl-1">
                                     <div class="form-group row m-b-10">
-                                        <label class="col-lg-3 text-lg-right col-form-label"><b>StartDate Project</b></label>
-                                        <div class="col-lg-9 col-xl-6">
+                                        <label class="col-lg-3 text-lg-right col-form-label"><b>Date(Start & End)</b></label>
+                                        <div class="col-lg-9 col-xl-3">
                                             <input type="text"  name="startdate" id="tanggalpicker" placeholder="Enter....." class="form-control">
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-10 offset-xl-1">
-                                    <div class="form-group row m-b-10">
-                                        <label class="col-lg-3 text-lg-right col-form-label"><b>EndDate Project</b></label>
-                                        <div class="col-lg-9 col-xl-6">
+                                        <div class="col-lg-9 col-xl-3">
                                             <input type="text"  name="enddate" id="tanggalpicker2" placeholder="Enter....." class="form-control">
                                         </div>
                                     </div>

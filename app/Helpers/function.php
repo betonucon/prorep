@@ -147,13 +147,33 @@ function dashboard_project_count(){
     }
     return $data;
 }
+
 function project_count(){
     $data=App\Project::where('username',Auth::user()['username'])->count();
     return $data;
 }
 
+function kategori_get(){
+    $data=App\Kategori::all();
+    return $data;
+}
+
+function progres_get(){
+    $data=App\Progres::all();
+    return $data;
+}
+
+function joborder_get($id){
+    $data=App\Joborder::where('kategori_id',$id)->get();
+    return $data;
+}
+
 function cek_aktifitas($id,$tgl){
     $data=App\Aktifitas::where('project_team_id',$id)->where('tanggal',$tgl)->count();
+    return $data;
+}
+function get_aktifitas($id,$tgl){
+    $data=App\Aktifitas::where('project_team_id',$id)->where('tanggal',$tgl)->orderBy('id','Asc')->get();
     return $data;
 }
 function cek_aktifitas_personal($username,$tgl){

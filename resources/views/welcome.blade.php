@@ -152,10 +152,10 @@
             datasets: [
             {
                 label: '{{name()}}',
-                borderWidth: 2,
+                borderWidth: 1,
                 borderColor: [
                     @foreach(dashboard_project_get($cost) as $no=>$project_get)
-                        '{{warna($no+1)}}',
+                        'purple',
                     @endforeach
                 ],
                 backgroundColor:  [

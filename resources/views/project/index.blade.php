@@ -109,20 +109,29 @@
                                 </div>
                                 <div class="col-xl-10 offset-xl-1">
                                     <div class="form-group row m-b-10">
-                                        <label class="col-lg-3 text-lg-right col-form-label"><b>StartDate Project</b></label>
-                                        <div class="col-lg-9 col-xl-6">
-                                            <input type="text"  name="startdate" id="tanggalpicker" placeholder="Enter....." class="form-control">
+                                        <label class="col-lg-3 text-lg-right col-form-label"><b>Categori Project</b></label>
+                                        <div class="col-lg-9 col-xl-9">
+                                            <select  name="kategori_id" placeholder="Enter....." class="form-control">
+                                                <option value="">--Select-----</option>
+                                                @foreach(kategori_get() as $kategori_get)
+                                                    <option value="{{$kategori_get->id}}">-{{$kategori_get->name}}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-xl-10 offset-xl-1">
                                     <div class="form-group row m-b-10">
-                                        <label class="col-lg-3 text-lg-right col-form-label"><b>EndDate Project</b></label>
-                                        <div class="col-lg-9 col-xl-6">
+                                        <label class="col-lg-3 text-lg-right col-form-label"><b>Date(Start & End )</b></label>
+                                        <div class="col-lg-9 col-xl-3">
+                                            <input type="text"  name="startdate" id="tanggalpicker" placeholder="Enter....." class="form-control">
+                                        </div>
+                                        <div class="col-lg-9 col-xl-3">
                                             <input type="text"  name="enddate" id="tanggalpicker2" placeholder="Enter....." class="form-control">
                                         </div>
                                     </div>
                                 </div>
+                                
                             </form>
                         </div>
                         <div class="modal-footer">

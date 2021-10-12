@@ -17,6 +17,7 @@ class Project extends Model
         'startdate',
         'enddate',
         'costcenter_id',
+        'kategori_id',
         'createdate',
     ];
 
@@ -27,5 +28,8 @@ class Project extends Model
     }
     function costcenter(){
 		  return $this->belongsTo('App\Costcenter','costcenter_id','id');
+    }
+    function kategori(){
+        return $this->belongsTo('App\Kategori','kategori_id','id');
     }
 }

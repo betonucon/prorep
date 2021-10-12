@@ -17,6 +17,8 @@ class Aktifitas extends Model
         'tanggal',
         'username',
         'sts',
+        'mulai',
+        'sampai',
 
     ];
 

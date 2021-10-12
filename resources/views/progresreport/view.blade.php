@@ -22,12 +22,9 @@
 			<div class="profile-header">
 				<div class="profile-header-cover"></div>
 				<div class="profile-header-content">
-					<div class="profile-header-img">
-						<img src="{{url('img/logo.png')}}" alt="">
-					</div>
 					<div class="profile-header-info">
-						<h4 class="mt-0 mb-1">{{$data->project['name']}}</h4>
-						<h4 class="mt-0 mb-1">{{$data->name}}</h4>
+						<h4 class="mt-0 mb-1" style="text-transform:uppercase">{{$data->project['name']}}</h4>
+						<h4 class="mt-0 mb-1" style="color:yellow">({{$data->joborder['name']}}) {{$data->name}}</h4>
 						<p class="mb-2">Project Manager : {{$data->user['name']}} </p>
 						<p class="mb-2">Startdate - Endtdate: {{$data->startdate}} To {{$data->enddate}}</p>
 						
@@ -72,8 +69,10 @@
                                         <th width="4%">No</th>
                                         <th width="8%">Day</th>
                                         <th width="8%">Date</th>
+                                        <th width="5%"></th>
                                         <th>Activitas</th>
-                                        <th width="7%">Progres</th>
+                                        <th width="5%">Progres</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -84,29 +83,33 @@
                                         ?>
                                         @if($periodemulai==$bulan.$tahun)
                                             @if($tgl>=$data->startdate)
+                                            
                                                 <tr class="{{$col}}">
                                                     <td>{{$kal}}</td>
                                                     <td>{{date('D',strtotime($tgl))}}</td>
                                                     <td>{{ubah_bulan($kal)}}/{{substr(bulan($bulan),0,3)}}/{{$tahun}}</td>
-                                                    @if(cek_aktifitas($data->id,$tgl)>0)
-                                                        <td style="background: #fff;"><i class="fas fa-times-circle" onclick="hapus_aktivitas({{$data->id}},`{{$tgl}}`)"></i> {!!aktifitas($data->id,$tgl)!!}</td>
-                                                        <td>{{progres_aktifitas($data->id,$tgl)}}%</td>
+                                                    @if($data->username==Auth::user()->username)
+                                                    <td><span class="btn btn-green btn-xs" onclick="isi_aktivitas({{$data->id}},`{{$tgl}}`)" title="Create aktivitas {{ubah_bulan($kal)}}/{{substr(bulan($bulan),0,3)}}/{{$tahun}}"><i class="fas fa-calendar-plus"></i></span></td>
                                                     @else
-                                                        @if($data->username==Auth::user()->username)
-                                                            <td><span class="btn btn-green btn-xs" onclick="isi_aktivitas({{$data->id}},`{{$tgl}}`)" title="Create aktivitas {{ubah_bulan($kal)}}/{{substr(bulan($bulan),0,3)}}/{{$tahun}}"><i class="fas fa-calendar-plus"></i></span></td>
-                                                        @else
-                                                            <td></td>
-                                                        @endif
-                                                        
-                                                        <td>0%</td>
+                                                    <td></td>
                                                     @endif
+                                                    <td colspan="2">
+                                                        <table width="100%">
+                                                            @foreach(get_aktifitas($data->id,$tgl) as $no=>$o)
+                                                                <tr>
+                                                                    <td>{{$o->keterangan}}</td>
+                                                                    <td width="7%">{{$o->progres}}%</td>
+                                                                </tr>
+                                                            @endforeach
+                                                        </table>
+                                                    </td>
                                                 </tr>
                                             @else
                                                 <tr class="table-warning">
                                                     <td>{{$kal}}</td>
                                                     <td>{{date('D',strtotime($tgl))}}</td>
                                                     <td>{{ubah_bulan($kal)}}/{{substr(bulan($bulan),0,3)}}/{{$tahun}}</td>
-                                                    <td colspan="2"></td>
+                                                    <td colspan="3"></td>
                                                 </tr>
                                             @endif
                                         @else
@@ -114,18 +117,21 @@
                                                 <td>{{$kal}}</td>
                                                 <td>{{date('D',strtotime($tgl))}}</td>
                                                 <td>{{ubah_bulan($kal)}}/{{substr(bulan($bulan),0,3)}}/{{$tahun}}</td>
-                                                @if(cek_aktifitas($data->id,$tgl)>0)
-                                                    <td style="background: #fff;"><i class="fas fa-times-circle" onclick="hapus_aktivitas({{$data->id}},`{{$tgl}}`)"></i> {!!aktifitas($data->id,$tgl)!!}</td>
-                                                    <td>{{progres_aktifitas($data->id,$tgl)}}%</td>
+                                                @if($data->username==Auth::user()->username)
+                                                <td><span class="btn btn-green btn-xs" onclick="isi_aktivitas({{$data->id}},`{{$tgl}}`)" title="Create aktivitas {{ubah_bulan($kal)}}/{{substr(bulan($bulan),0,3)}}/{{$tahun}}"><i class="fas fa-calendar-plus"></i></span></td>
                                                 @else
-                                                    @if($data->username==Auth::user()->username)
-                                                        <td><span class="btn btn-green btn-xs" onclick="isi_aktivitas({{$data->id}},`{{$tgl}}`)" title="Create aktivitas {{ubah_bulan($kal)}}/{{substr(bulan($bulan),0,3)}}/{{$tahun}}"><i class="fas fa-calendar-plus"></i></span></td>
-                                                    @else
-                                                        <td></td>
-                                                    @endif
-                                                    
-                                                    <td>0%</td>
+                                                <td></td>
                                                 @endif
+                                                <td colspan="2">
+                                                    <table width="100%">
+                                                        @foreach(get_aktifitas($data->id,$tgl) as $no=>$o)
+                                                            <tr>
+                                                                <td>{{$o->name}}</td>
+                                                                <td width="7%"></td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </table>
+                                                </td>
                                             </tr>
                                         @endif
                                         
@@ -159,18 +165,54 @@
                             <form id="mycreate" onkeypress="return event.keyCode != 13" action="{{url('Project')}}" method="post" enctype="multipart/form-data">
                                 <input type="hidden" name="project_team_id" id="project_team_id">
                                 <input type="hidden" name="tanggal" id="tanggal-aktivitas">
+                                <div class="col-xl-10 offset-xl-1">
+                                    <div class="form-group row m-b-10">
+                                        <label class="col-lg-3 text-lg-right col-form-label"><b>Aktifitas</b></label>
+                                        <div class="col-lg-9 col-xl-9">
+                                            <textarea class="textarea form-control" name="keterangan" id="textareanya" placeholder="Enter text ..." rows="8"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="col-xl-10 offset-xl-1">
+                                    <div class="form-group row m-b-10">
+                                        <label class="col-lg-3 text-lg-right col-form-label"><b>Progres</b></label>
+                                        <div class="col-lg-9 col-xl-4">
+                                            <input type="number" class="form-control" name="progres" id="progres" onkeyup="isi_progres(this.value)"placeholder="Enter text ..."  >
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div class="col-xl-10 offset-xl-1">
+                                    <div class="form-group row m-b-10">
+                                        <label class="col-lg-3 text-lg-right col-form-label"><b>Progres</b></label>
+                                        <div class="col-lg-9 col-xl-4">
+                                        <select class="form-control selectpicker" name="progres" data-size="10" data-live-search="true" data-style="btn-white">
+											<option value="" selected>--Select Progres--</option>
+                                            @foreach(progres_get() as $progres_get)
+											<option value="{{$progres_get->progres}}">{{$progres_get->name}} ({{$progres_get->progres}}%)</option>
+											@endforeach
+										</select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-10 offset-xl-1">
+                                    <div class="form-group row m-b-10">
+                                        <label class="col-lg-3 text-lg-right col-form-label"><b>Time(Start & End)</b></label>
+                                        <div class="col-lg-9 col-xl-2">
+                                            <input type="text" class="form-control" name="mulai" value="{{date('H:00')}}" id="pickermulai" placeholder="00:00"  >
+                                        </div>
+                                        <div class="col-lg-9 col-xl-2">
+                                            <input type="text" class="form-control" name="sampai" id="pickersampai" placeholder="00:00"  >
+                                        </div>
+                                        <div class="col-lg-9 col-xl-3">
+                                            <input type="text" class="form-control" disabled id="totaljam"  >
+                                        </div>
+                                    </div>
+                                </div>
                                 
-                                <div class="form-group">
-                                    <label><b>Aktifitas</b></label>
-                                    <textarea class="textarea form-control" name="keterangan" id="textareanya" placeholder="Enter text ..." rows="8"></textarea>
+                                
+                                
                                     
-                                </div>
-                                <div class="form-group">
-                                    <label><b>Progres</b></label>
-                                    <input type="number" class="form-control" name="progres" id="progres" onkeyup="isi_progres(this.value)"placeholder="Enter text ..."  style="width:20%">
-                                    
-                                </div>
-
+                                
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -221,7 +263,31 @@
 
             $("#textareanya").wysihtml5();
         });
-
+        $(function () {
+            $('#pickermulai').datetimepicker({
+                format: 'HH:00',
+                
+            })
+            $('#pickersampai').datetimepicker({
+                format: 'HH:00',
+                
+            }).on('dp.change', function(e) {
+                
+                var mulai_izin = document.getElementById("pickermulai").value;	
+                var today = 00+'/'+00+'/'+0000;
+                if(this.value>mulai_izin){
+                    var Mulai = new Date("2021-02-01" + " " + mulai_izin).getHours();
+                    var Akhir = new Date("2021-02-01" + " " + this.value).getHours();
+                    
+                    var selsih = Akhir-Mulai; 
+                        document.getElementById('totaljam').value=selsih+" Jam"; 
+                }else{
+                    document.getElementById('pickersampai').value=""; 
+                    document.getElementById('totaljam').value=0; 
+                }
+                
+            });
+        });
         function isi_progres(a){
             if(a.length>3){
                 alert('Maximal 3 Carakter')

@@ -18,6 +18,7 @@ class Projectteam extends Model
         'progres',
         'prosesdate',
         'sts',
+        'job_order_id',
         
     ];
     function user(){
@@ -25,5 +26,8 @@ class Projectteam extends Model
     }
     function project(){
 		  return $this->belongsTo('App\Project','kode_project','kode_project');
+    }
+    function joborder(){
+		  return $this->belongsTo('App\Joborder','job_order_id','id');
     }
 }
